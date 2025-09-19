@@ -1,6 +1,7 @@
 # 💬 Bengali RAG Chatbot
 
 A simple chatbot that answers Bengali questions from a local text file using RAG (Retrieval-Augmented Generation). Runs fully locally with **Streamlit**, **LangChain**, and **Ollama**.
+![bengali_chatbot_gif_gemma4b](https://github.com/user-attachments/assets/c8f97ddc-58a6-45ad-8e05-5ca0c9030abf)
 
 ---
 
