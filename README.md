@@ -19,7 +19,7 @@ A simple chatbot that answers Bengali questions from a local text file using RAG
 ### 1. Install dependencies
 
 ```bash
-pip install -r requirements.txt
+pip install streamlit langchain langchain-community langchain-ollama langchain-chroma chromadb ollama
 ```
 
 ### 2. Start Ollama & pull models
