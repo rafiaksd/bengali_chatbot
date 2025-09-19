@@ -9,11 +9,12 @@ import os
 # Initialize models and vector store
 EMBEDDING_MODEL = "toshk0/nomic-embed-text-v2-moe:Q6_K"
 LLM_MODEL = "gemma3:4b"
-DB_DIR = "db/db_nomic_embed_v2_noq_moe_chroma"
+DB_DIR = "db/db_500_150_nomic_v2_chroma"
 TEXT_SOURCE = "bengali_kb/doc1_noq.txt"
 
-CHUNK_SIZE = 600
+CHUNK_SIZE = 500
 CHUNK_OVERLAP = 150
+TOP_K = 5
 
 # Set up Streamlit page configuration
 st.set_page_config(page_title="Bengali RAG Chatbot", layout="wide")
@@ -83,20 +84,27 @@ for message in st.session_state.messages:
 
 # Function to retrieve context
 def retrieve_context(query: str) -> str:
-    results = st.session_state.vectorstore.similarity_search(query, k=5)
+    results = st.session_state.vectorstore.similarity_search(query, k=TOP_K)
     return "\n\n".join([doc.page_content for doc in results])
 
 # Function to generate streaming answer
 def generate_answer(query: str, context: str):
+    prompt_prefix = "প্রসঙ্গটি পড়ো এবং প্রশ্নের সংক্ষিপ্ত ও সরাসরি উত্তর দাও।"
+    
+    if "qwen" in LLM_MODEL.lower():  # case-insensitive check
+        print(f"QWEN MODEL DETECTED")
+        prompt_prefix += " /no_think"
+    
     stream = ollama.chat(
         model=LLM_MODEL,
         messages=[
-            {"role": "user", "content": f"প্রসঙ্গটি পড়ো এবং প্রশ্নের সংক্ষিপ্ত ও সরাসরি উত্তর দাও।\n\nপ্রসঙ্গ:\n{context}"},
+            {"role": "user", "content": f"{prompt_prefix}\n\nপ্রসঙ্গ:\n{context}"},
             {"role": "user", "content": query}
         ],
         stream=True
     )
     return stream
+
 
 # Input field for user messages
 if user_input := st.chat_input("Type your message here..."):

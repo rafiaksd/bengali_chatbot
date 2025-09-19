@@ -12,7 +12,7 @@ import os, time, threading, winsound
 #toshk0/nomic-embed-text-v2-moe:Q6_K
 
 EMBEDDING_MODEL = "toshk0/nomic-embed-text-v2-moe:Q6_K" #bge-m3, snowflake-arctic-embed2
-LLM_MODEL = "gemma3:4b"
+LLM_MODEL = "gemma3:1b"
 CHUNK_SIZE = 1200 #150,200,300,400,500,600,800,1000,1500,2000
 CHUNK_OVERLAP = 120 #50,100,150,200
 DB_DIR = "db/db_noq_1200_arctic_chroma"
